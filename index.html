@@ -1,23 +1,45 @@
 ﻿<!DOCTYPE html>
 <html>
-<head>    
-	<meta charset="utf-8" />
+<head>
+    <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Northpoint Softball Stats</title>
 
-    <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
     <link href="css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.2/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-aNUYGqSUL9wG/vP7+cWZ5QOM4gsQou3sBfWRr/8S3R1Lv0rysEmnwsRKMbhiQX/O" crossorigin="anonymous">
+    <style>
+        .table tr:hover {
+            background-color: #D9EDF7 !important;
+        }
+    </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Northpoint Softball Stats</h1>    
-    </div>
+    <article class="container">
+        <header><h1>Northpoint Softball Stats</h1></header>
+        <h3>Batting Stats</h3>
+        <div class="table-responsive">
+            <table id="player-stats" class="table table-striped">
+                <tr><th>Name</th><th>At Bats</th><th>Hits</th><th>BAvg</th><th>Runs</th><th>RBIs</th><th>2B</th><th>3B</th><th>HR</th><th>Slug%</th><th>OB%</th><th>RSP%</th><th>Sac</th><th>K</th><th>BB</th></tr>
+            </table>
+        </div>
+        <small>Data shown is directly from <a href="http://mlsoftball.com/team_statistics.php?programID=25&seasonID=825&TEAM_ID=BAND_OF_BROTHERS&league=S-MENLO">MLSoftball.com</a> and is incorrect. Only players that have at least one (1) At Bat are shown</small>
+        <footer>
+            <a href="mailto:danieljjefferson@gmail.com"><i class="fa fa-envelope-o" aria-hidden="true"></i> Send feedback</a>
+        </footer>
+    </article>
+
     <script src="https://code.jquery.com/jquery-1.12.3.min.js" integrity="sha256-aaODHAgvwQW1bFOGXMeX+pC4PZIPsvn2h1sArYOhgXQ=" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
     <script>
         (function () {
-
+            $.getJSON("json/stats.json", function (data) {
+                var $player_table = $("#player-stats");
+                $.each(data, function (i, player) {
+                    var row = "<tr><td>" + player.Name + "</td><td>" + player.AtBats + "</td><td>" + player.Hits + "</td><td>" + Number(player.BattingAverage).toFixed(3) + "</td><td>" + player.Runs + "</td><td>" + player.RBIs + "</td><td>" + player.Doubles + "</td><td>" + player.Triples + "</td><td>" + player.HomeRuns + "</td><td>" + Number(player.SluggingPercent).toFixed(3) + "</td><td>" + Number(player.OnBasePercent).toFixed(3) + "</td><td>" + Number(player.RSP).toFixed(3) + "</td><td>" + player.Sacrifces + "</td><td>" + player.StrikeOuts + "</td><td>" + player.BaseOnBalls + "</td></tr>"
+                    $player_table.append(row);
+                    //console.log(player.Name);
+                });
+            });
         })();
     </script>
 </body>
