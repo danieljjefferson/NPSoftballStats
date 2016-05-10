@@ -8,8 +8,16 @@
     <link href="css/bootstrap.min.css" rel="stylesheet" />
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.2/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-aNUYGqSUL9wG/vP7+cWZ5QOM4gsQou3sBfWRr/8S3R1Lv0rysEmnwsRKMbhiQX/O" crossorigin="anonymous">
     <style>
-        .table tr:hover {
+        .table tbody tr:hover {
             background-color: #D9EDF7 !important;
+        }
+        
+        th{
+            cursor: pointer;
+        }
+        
+        th:hover{
+            color: peru;
         }
     </style>
 </head>
@@ -19,7 +27,7 @@
         <h3>Batting Stats</h3>
         <div class="table-responsive">
             <table id="player-stats" class="table table-striped">
-                <tr><th>Name</th><th>At Bats</th><th>Hits</th><th>BAvg</th><th>Runs</th><th>RBIs</th><th>2B</th><th>3B</th><th>HR</th><th>Slug%</th><th>OB%</th><th>RSP%</th><th>Sac</th><th>K</th><th>BB</th></tr>
+                
             </table>
         </div>
         <small>Data shown is directly from <a href="http://mlsoftball.com/team_statistics.php?programID=25&seasonID=825&TEAM_ID=BAND_OF_BROTHERS&league=S-MENLO">MLSoftball.com</a> and can be incorrect. Only players that have at least one (1) At Bat are shown</small>
@@ -30,8 +38,8 @@
 
     <script src="https://code.jquery.com/jquery-1.12.3.min.js" integrity="sha256-aaODHAgvwQW1bFOGXMeX+pC4PZIPsvn2h1sArYOhgXQ=" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
-    <!--<script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>-->
-    <script>
+    <script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    <!--<script>
         (function () {
             $.getJSON("json/stats.json", function (data) {
                 var $player_table = $("#player-stats");
@@ -40,6 +48,66 @@
                     $player_table.append(row);
                     //console.log(player.Name);
                 });
+            });
+        })();
+    </script>-->
+    <script>
+        var keys = ["Name", "AtBats", "Hits", "BattingAverage", "Runs", "RBIs", "Doubles", "Triples", "HomeRuns", "SluggingPercent", "OnBasePercent", "RSP", "Sacrifces", "StrikeOuts", "BaseOnBalls"];
+        
+        (function(){
+            d3.json("json/stats.json", function(error, playerData){
+                //console.log(playerData);
+                
+                var table = d3.select("#player-stats"), thead = table.append("thead"), tbody = table.append("tbody");
+                var headers = thead.append("tr").selectAll("th").data(keys).text(function(column) { return column; });
+                
+                headers.enter().append("th").html(function(column) {
+                    switch(column){
+                        case "BattingAverage":
+                            return "<span class='tool-tip' data-toggle='tooltip' title='Sort by Batting Average'>BAvg</span>"; 
+                        case "AtBats":
+                            return "At Bats";
+                        case "Doubles":
+                            return "2B";
+                        case "Triples":
+                            return "3B";
+                        case "HomeRuns":
+                            return "HR";
+                        case "SluggingPercent":
+                            return "Slug%";
+                        case "OnBasePercent":
+                            return "OB%";
+                        case "Sacrifces":
+                            return "Sac";
+                        case "StrikeOuts":
+                            return "K";
+                        case "BaseOnBalls":
+                            return "BB";
+                    }
+                    return "<span class='tool-tip' data-toggle='tooltip' title='Sort by " + column +"'>" + column + "</span>"; 
+                }).on("click", function(d){
+                    console.log("clicked: "+ d);
+                });
+                
+                var rows = tbody.selectAll("tr").data(playerData);
+                rows.enter().append("tr");
+                
+                var cells = rows.selectAll("td").data(function(row) {
+                    return keys.map(function(column){ 
+                        return { column: column, value: row[column]};
+                    });
+                }).enter().append("td").text(function(d) {
+                    switch(d.column){
+                        case "BattingAverage":
+                            return d.value.toFixed(3);
+                        case "SluggingPercent":
+                            return d.value.toFixed(3);
+                        case "OnBasePercent":
+                            return d.value.toFixed(3);
+                    }
+                    return d.value;
+                });
+                $(".tool-tip").tooltip();
             });
         })();
     </script>
@@ -51,9 +119,16 @@
             }, i[r].l = 1 * new Date(); a = s.createElement(o),
             m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
         })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
-
-        ga('create', 'UA-77376551-1', 'auto');
-        ga('send', 'pageview');
+        
+        var host = window.location.hostname;
+        if(host.search("localhost") || host.search("127.0.0.1"))
+            console.log("Testing");
+        else{
+            console.log("Not Testing");
+            ga('create', 'UA-77376551-1', 'auto');
+            ga('send', 'pageview');
+        }
     </script>
 </body>
+    <!--<tr><th>Name</th><th>At Bats</th><th>Hits</th><th>BAvg</th><th>Runs</th><th>RBIs</th><th>2B</th><th>3B</th><th>HR</th><th>Slug%</th><th>OB%</th><th>RSP%</th><th>Sac</th><th>K</th><th>BB</th></tr>-->
 </html>
