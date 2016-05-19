@@ -12,7 +12,7 @@ app.controller("BattingStatsController", function ($http) {
 
     $http({
         method: 'GET',
-        url: '../json/stats.json'
+        url: 'json/stats.json'
     }).then(function successCallback(response) {
         statsList.message = response.status;
         statsList.stats = new Array();
