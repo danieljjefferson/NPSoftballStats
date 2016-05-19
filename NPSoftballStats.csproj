@@ -202,7 +202,7 @@
     <Content Include="js\d3dataload.js" />
     <Content Include="js\statsApp.js" />
     <Content Include="json\games.json" />
-    <Content Include="json\stats.json" />
+    <Content Include="stats.json" />
     <Content Include="bower_components\angular\.bower.json" />
     <Content Include="bower_components\angular\angular.min.js.gzip" />
     <Content Include="bower_components\angular\angular.min.js.map" />
