@@ -1,26 +1,223 @@
 ﻿<!DOCTYPE html>
-<html>
+<html lang="en" ng-app="statsApp">
 <head>
     <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
     <title>Northpoint Softball Stats</title>
 
     <link href="css/bootstrap.min.css" rel="stylesheet" />
-    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.2/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-aNUYGqSUL9wG/vP7+cWZ5QOM4gsQou3sBfWRr/8S3R1Lv0rysEmnwsRKMbhiQX/O" crossorigin="anonymous">
+    <link href="bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="icon" href="img/favicon.png">
     <style>
-        .table tr:hover {
+        .table tbody tr:hover {
             background-color: #D9EDF7 !important;
         }
+
+        th {
+            cursor: pointer;
+        }
+
+            th:hover {
+                color: peru;
+            }
     </style>
 </head>
 <body>
     <article class="container">
-        <header><h1>Northpoint Softball Stats</h1></header>
-        <h3>Batting Stats</h3>
-        <div class="table-responsive">
-            <table id="player-stats" class="table table-striped">
-                <tr><th>Name</th><th>At Bats</th><th>Hits</th><th>BAvg</th><th>Runs</th><th>RBIs</th><th>2B</th><th>3B</th><th>HR</th><th>Slug%</th><th>OB%</th><th>RSP%</th><th>Sac</th><th>K</th><th>BB</th></tr>
-            </table>
+        <header class="page-header">
+            <h1 class="visible-md visible-lg ">Northpoint Softball Stats</h1>
+            <h3 class="visible-sm">Northpoint Softball Stats</h3>
+            <h4 class="visible-xs">Northpoint Softball Stats</h4>
+        </header>
+        <div>
+            <ul class="nav nav-tabs">
+                <li class="active"><a href="#batting" data-toggle="tab" aria-expanded="false">Batting</a></li>
+                <li class=""><a href="#fielding" data-toggle="tab" aria-expanded="true">Fielding</a></li>
+                <li class=""><a href="#pitching" data-toggle="tab" aria-expanded="true">Pitching</a></li>
+            </ul>
+            <br />
+            <div id="tab-stat-content" class="tab-content" ng-controller="BattingStatsController as bstats">
+                <div class="tab-pane fade active in" id="batting">
+                    <div class="table-responsive" >
+                        <table id="player-stats" class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th ng-click="bstats.sortCol = 'Name'; bstats.sortReverse = !bstats.sortReverse">
+                                        Name
+                                        <i ng-show="bstats.sortCol == 'Name' && !bstats.sortReverse" class="fa fa-sort-desc" aria-hidden="true" ng></i>
+                                        <i ng-show="bstats.sortCol == 'Name' && bstats.sortReverse"class="fa fa-sort-asc" aria-hidden="true" ng></i>
+                                    </th>
+                                    <th ng-click="bstats.sortCol = 'AtBats'; bstats.sortReverse = !bstats.sortReverse">
+                                        At Bats
+                                        <i ng-show="bstats.sortCol == 'AtBats' && !bstats.sortReverse" class="fa fa-sort-desc" aria-hidden="true" ng></i>
+                                        <i ng-show="bstats.sortCol == 'AtBats' && bstats.sortReverse" class="fa fa-sort-asc" aria-hidden="true" ng></i>
+                                    </th>
+                                    <th ng-click="bstats.sortCol = 'Hits'; bstats.sortReverse = !bstats.sortReverse">
+                                        Hits
+                                        <i ng-show="bstats.sortCol == 'Hits' && !bstats.sortReverse" class="fa fa-sort-desc" aria-hidden="true" ng></i>
+                                        <i ng-show="bstats.sortCol == 'Hits' && bstats.sortReverse" class="fa fa-sort-asc" aria-hidden="true" ng></i>
+                                    </th>
+                                    <th ng-click="bstats.sortCol = 'BattingAverage'; bstats.sortReverse = !bstats.sortReverse">
+                                        BAvg
+                                        <i ng-show="bstats.sortCol == 'BattingAverage' && !bstats.sortReverse" class="fa fa-sort-desc" aria-hidden="true" ng></i>
+                                        <i ng-show="bstats.sortCol == 'BattingAverage' && bstats.sortReverse" class="fa fa-sort-asc" aria-hidden="true" ng></i>
+                                    </th>
+                                    <th ng-click="bstats.sortCol = 'Runs'; bstats.sortReverse = !bstats.sortReverse">
+                                        Runs
+                                        <i ng-show="bstats.sortCol == 'Runs' && !bstats.sortReverse" class="fa fa-sort-desc" aria-hidden="true" ng></i>
+                                        <i ng-show="bstats.sortCol == 'Runs' && bstats.sortReverse" class="fa fa-sort-asc" aria-hidden="true" ng></i>
+                                    </th>
+                                    <th ng-click="bstats.sortCol = 'RBIs'; bstats.sortReverse = !bstats.sortReverse">
+                                        RBIs
+                                        <i ng-show="bstats.sortCol == 'RBIs' && !bstats.sortReverse" class="fa fa-sort-desc" aria-hidden="true" ng></i>
+                                        <i ng-show="bstats.sortCol == 'NRBIsame' && bstats.sortReverse" class="fa fa-sort-asc" aria-hidden="true" ng></i>
+                                    </th>
+                                    <th ng-click="bstats.sortCol = 'Doubles'; bstats.sortReverse = !bstats.sortReverse">
+                                        2B
+                                        <i ng-show="bstats.sortCol == 'Doubles' && !bstats.sortReverse" class="fa fa-sort-desc" aria-hidden="true" ng></i>
+                                        <i ng-show="bstats.sortCol == 'Doubles' && bstats.sortReverse" class="fa fa-sort-asc" aria-hidden="true" ng></i>
+                                    </th>
+                                    <th ng-click="bstats.sortCol = 'Triples'; bstats.sortReverse = !bstats.sortReverse">
+                                        3B
+                                        <i ng-show="bstats.sortCol == 'Triples' && !bstats.sortReverse" class="fa fa-sort-desc" aria-hidden="true" ng></i>
+                                        <i ng-show="bstats.sortCol == 'Triples' && bstats.sortReverse" class="fa fa-sort-asc" aria-hidden="true" ng></i>
+                                    </th>
+                                    <th ng-click="bstats.sortCol = 'HomeRuns'; bstats.sortReverse = !bstats.sortReverse">
+                                        HR
+                                        <i ng-show="bstats.sortCol == 'HomeRuns' && !bstats.sortReverse" class="fa fa-sort-desc" aria-hidden="true" ng></i>
+                                        <i ng-show="bstats.sortCol == 'HomeRuns' && bstats.sortReverse" class="fa fa-sort-asc" aria-hidden="true" ng></i>
+                                    </th>
+                                    <th ng-click="bstats.sortCol = 'SluggingPercent'; bstats.sortReverse = !bstats.sortReverse">
+                                        Slug%
+                                        <i ng-show="bstats.sortCol == 'SluggingPercent' && !bstats.sortReverse" class="fa fa-sort-desc" aria-hidden="true" ng></i>
+                                        <i ng-show="bstats.sortCol == 'SluggingPercent' && bstats.sortReverse" class="fa fa-sort-asc" aria-hidden="true" ng></i>
+                                    </th>
+                                    <th ng-click="bstats.sortCol = 'OnBasePercent'; bstats.sortReverse = !bstats.sortReverse">
+                                        OB%
+                                        <i ng-show="bstats.sortCol == 'OnBasePercent' && !bstats.sortReverse" class="fa fa-sort-desc" aria-hidden="true" ng></i>
+                                        <i ng-show="bstats.sortCol == 'OnBasePercent' && bstats.sortReverse" class="fa fa-sort-asc" aria-hidden="true" ng></i>
+                                    </th>
+                                    <th ng-click="bstats.sortCol = 'RSP'; bstats.sortReverse = !bstats.sortReverse">
+                                        RSP%
+                                        <i ng-show="bstats.sortCol == 'RSP' && !bstats.sortReverse" class="fa fa-sort-desc" aria-hidden="true" ng></i>
+                                        <i ng-show="bstats.sortCol == 'RSP' && bstats.sortReverse" class="fa fa-sort-asc" aria-hidden="true" ng></i>
+                                    </th>
+                                    <th ng-click="bstats.sortCol = 'Sacrifces'; bstats.sortReverse = !bstats.sortReverse">
+                                        Sac
+                                        <i ng-show="bstats.sortCol == 'Sacrifces' && !bstats.sortReverse" class="fa fa-sort-desc" aria-hidden="true" ng></i>
+                                        <i ng-show="bstats.sortCol == 'Sacrifces' && bstats.sortReverse" class="fa fa-sort-asc" aria-hidden="true" ng></i>
+                                    </th>
+                                    <th ng-click="bstats.sortCol = 'StrikeOuts'; bstats.sortReverse = !bstats.sortReverse">
+                                        K
+                                        <i ng-show="bstats.sortCol == 'StrikeOuts' && !bstats.sortReverse" class="fa fa-sort-desc" aria-hidden="true" ng></i>
+                                        <i ng-show="bstats.sortCol == 'StrikeOuts' && bstats.sortReverse" class="fa fa-sort-asc" aria-hidden="true" ng></i>
+                                    </th>
+                                    <th ng-click="bstats.sortCol = 'BaseOnBalls'; bstats.sortReverse = !bstats.sortReverse">
+                                        BB
+                                        <i ng-show="bstats.sortCol == 'BaseOnBalls' && !bstats.sortReverse" class="fa fa-sort-desc" aria-hidden="true" ng></i>
+                                        <i ng-show="bstats.sortCol == 'BaseOnBalls' && bstats.sortReverse" class="fa fa-sort-asc" aria-hidden="true" ng></i>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="player in bstats.stats | orderBy:bstats.sortCol:bstats.sortReverse">
+                                    <td>{{player.Name}}</td>
+                                    <td>{{player.AtBats}}</td>
+                                    <td>{{player.Hits}}</td>
+                                    <td>{{player.BattingAverage | number:3}}</td>
+                                    <td>{{player.Runs}}</td>
+                                    <td>{{player.RBIs}}</td>
+                                    <td>{{player.Doubles}}</td>
+                                    <td>{{player.Triples}}</td>
+                                    <td>{{player.HomeRuns}}</td>
+                                    <td>{{player.SluggingPercent | number:3}}</td>
+                                    <td>{{player.OnBasePercent | number:3}}</td>
+                                    <td>{{player.RSP | number:3}}</td>
+                                    <td>{{player.Sacrifces}}</td>
+                                    <td>{{player.StrikeOuts}}</td>
+                                    <td>{{player.BaseOnBalls}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="fielding">
+                    <div class="table-responsive">
+                        <table id="player-stats" class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th ng-click="bstats.sortCol = 'Name'; bstats.sortReverse = !bstats.sortReverse">
+                                        Name
+                                        <i ng-show="bstats.sortCol == 'Name' && !bstats.sortReverse" class="fa fa-sort-desc" aria-hidden="true" ng></i>
+                                        <i ng-show="bstats.sortCol == 'Name' && bstats.sortReverse" class="fa fa-sort-asc" aria-hidden="true" ng></i>
+                                    </th>
+                                    <th ng-click="bstats.sortCol = 'Attempts'; bstats.sortReverse = !bstats.sortReverse">
+                                        Attempts
+                                        <i ng-show="bstats.sortCol == 'Attempts' && !bstats.sortReverse" class="fa fa-sort-desc" aria-hidden="true" ng></i>
+                                        <i ng-show="bstats.sortCol == 'Attempts' && bstats.sortReverse" class="fa fa-sort-asc" aria-hidden="true" ng></i>
+                                    </th>
+                                    <th ng-click="bstats.sortCol = 'PutOuts'; bstats.sortReverse = !bstats.sortReverse">
+                                        Outs
+                                        <i ng-show="bstats.sortCol == 'PutOuts' && !bstats.sortReverse" class="fa fa-sort-desc" aria-hidden="true" ng></i>
+                                        <i ng-show="bstats.sortCol == 'PutOuts' && bstats.sortReverse" class="fa fa-sort-asc" aria-hidden="true" ng></i>
+                                    </th>
+                                    <th ng-click="bstats.sortCol = 'Errors'; bstats.sortReverse = !bstats.sortReverse">
+                                        Errors
+                                        <i ng-show="bstats.sortCol == 'Errors' && !bstats.sortReverse" class="fa fa-sort-desc" aria-hidden="true" ng></i>
+                                        <i ng-show="bstats.sortCol == 'Errors' && bstats.sortReverse" class="fa fa-sort-asc" aria-hidden="true" ng></i>
+                                    </th>
+                                    <th ng-click="bstats.sortCol = 'FieldingAverage'; bstats.sortReverse = !bstats.sortReverse">
+                                        Fielding Average
+                                        <i ng-show="bstats.sortCol == 'FieldingAverage' && !bstats.sortReverse" class="fa fa-sort-desc" aria-hidden="true" ng></i>
+                                        <i ng-show="bstats.sortCol == 'FieldingAverage' && bstats.sortReverse" class="fa fa-sort-asc" aria-hidden="true" ng></i>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="player in bstats.stats | orderBy:bstats.sortCol:bstats.sortReverse">
+                                    <td>{{player.Name}}</td>
+                                    <td>{{player.Attempts}}</td>
+                                    <td>{{player.PutOuts}}</td>
+                                    <td>{{player.Errors}}</td>
+                                    <td>{{player.FieldingAverage | number:3}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="pitching">
+                    <div class="table-responsive">
+                        <table id="player-stats" class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th ng-click="bstats.sortCol = 'Name'; bstats.sortReverse = !bstats.sortReverse">Name</th>
+                                    <th ng-click="bstats.sortCol = 'InningsPitched'; bstats.sortReverse = !bstats.sortReverse">Innings Pitched</th>
+                                    <th ng-click="bstats.sortCol = 'HitsAllowed'; bstats.sortReverse = !bstats.sortReverse">Hits Allowed</th>
+                                    <th ng-click="bstats.sortCol = 'BattersOut'; bstats.sortReverse = !bstats.sortReverse">Batters Out</th>
+                                    <th ng-click="bstats.sortCol = 'BattersWalked'; bstats.sortReverse = !bstats.sortReverse">Walks</th>
+                                    <th ng-click="bstats.sortCol = 'RunsAllowed'; bstats.sortReverse = !bstats.sortReverse">Runs Allowed</th>
+                                    <th ng-click="bstats.sortCol = 'EarnedRuns'; bstats.sortReverse = !bstats.sortReverse">Earned Runs</th>
+                                    <th ng-click="bstats.sortCol = 'EarnedRunsAverage'; bstats.sortReverse = !bstats.sortReverse">ERAvg</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="player in bstats.pitchers()">
+                                    <td>{{player.Name}}</td>
+                                    <td>{{player.InningsPitched}}</td>
+                                    <td>{{player.HitsAllowed}}</td>
+                                    <td>{{player.BattersOut}}</td>
+                                    <td>{{player.BattersWalked}}</td>
+                                    <td>{{player.RunsAllowed}}</td>
+                                    <td>{{player.EarnedRuns}}</td>
+                                    <td>{{player.EarnedRunsAverage| number:3}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
         </div>
         <small>Data shown is directly from <a href="http://mlsoftball.com/team_statistics.php?programID=25&seasonID=825&TEAM_ID=BAND_OF_BROTHERS&league=S-MENLO">MLSoftball.com</a> and can be incorrect. Only players that have at least one (1) At Bat are shown</small>
         <footer>
@@ -28,20 +225,17 @@
         </footer>
     </article>
 
-    <script src="https://code.jquery.com/jquery-1.12.3.min.js" integrity="sha256-aaODHAgvwQW1bFOGXMeX+pC4PZIPsvn2h1sArYOhgXQ=" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+    <script src="bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="bower_components/angular/angular.min.js"></script>
+    <script src="js/statsApp.js"></script>
     <script>
         (function () {
-            $.getJSON("json/stats.json", function (data) {
-                var $player_table = $("#player-stats");
-                $.each(data, function (i, player) {
-                    var row = "<tr><td>" + player.Name + "</td><td>" + player.AtBats + "</td><td>" + player.Hits + "</td><td>" + Number(player.BattingAverage).toFixed(3) + "</td><td>" + player.Runs + "</td><td>" + player.RBIs + "</td><td>" + player.Doubles + "</td><td>" + player.Triples + "</td><td>" + player.HomeRuns + "</td><td>" + Number(player.SluggingPercent).toFixed(3) + "</td><td>" + Number(player.OnBasePercent).toFixed(3) + "</td><td>" + Number(player.RSP).toFixed(3) + "</td><td>" + player.Sacrifces + "</td><td>" + player.StrikeOuts + "</td><td>" + player.BaseOnBalls + "</td></tr>"
-                    $player_table.append(row);
-                    //console.log(player.Name);
-                });
-            });
+            console.log($.fn.jquery);
+            console.log(angular.version.full);
         })();
     </script>
+    <!--Google Analytics-->
     <script>
         (function (i, s, o, g, r, a, m) {
             i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
@@ -50,8 +244,15 @@
             m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
         })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
 
-        ga('create', 'UA-77376551-1', 'auto');
-        ga('send', 'pageview');
+        var host = window.location.hostname;
+        if (host.search("localhost") || host.search("127.0.0.1"))
+            console.log("Testing");
+        else {
+            console.log("Not Testing");
+            ga('create', 'UA-77376551-1', 'auto');
+            ga('send', 'pageview');
+        }
     </script>
 </body>
+
 </html>
