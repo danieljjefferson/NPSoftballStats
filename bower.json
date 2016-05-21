@@ -1,0 +1,21 @@
+{
+  "name": "NPSoftballStats",
+  "version": "0.0.0",
+  "homepage": "danieljjefferson.github.io/NPSoftballStats",
+  "authors": [
+    "Daniel Jefferson <danieljjefferson@gmail.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "~1.5.5",
+    "bootstrap": "~3.3.6",
+    "jquery": "~2.2.3"
+  }
+}
