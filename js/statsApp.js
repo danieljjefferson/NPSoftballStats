@@ -44,12 +44,27 @@ app.controller("ChangesController", function ($http) {
         url: 'https://api.github.com/repos/danieljjefferson/NPSoftballStats/commits'
     }).then(function successCallback(response) {
         commits.message = response.status;
-        console.log(response.data);
+        //console.log(response.data);
         commits.changes = new Array();
         angular.forEach(response.data, function (change) {
             commits.changes.push(change);
         });
     }, function errorCallback(response) {
         commits.message = response.statusText;
+    });
+});
+
+app.controller("PlayerController", function ($http) {
+    var player = this;
+
+    $http({
+        method: 'GET',
+        url: 'json/games.json'
+    }).then(function successCallback(response) {
+        player.msg = response.status;
+        player.games = response.data;
+        //console.log(response.data);
+    }, function errorCallback(response) {
+        player.message = response.statusText;
     });
 });
