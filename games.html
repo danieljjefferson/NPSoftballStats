@@ -17,6 +17,8 @@
             margin: 4px;
             border-radius: 2px;
             box-shadow: 2px 2px 2px #AAA;
+            padding-top: 5px;
+            padding-bottom: 5px;
         }
 
         .dnp {
@@ -64,8 +66,8 @@
                     <div ng-repeat="playerInfo in game.Stats" class="col-md-3 col-sm-3 col-lg-2 card" ng-class="playerInfo.AtBats == 0 ? 'dnp' : 'active'">
                         <span> {{playerInfo.Name}}</span> <br />
                         Batting Avg: {{playerInfo.BattingAverage | number:3}}<br />
-                        On Base Avg: {{playerInfo.OnBasePercent | number:3}}<br />
-                        Fielding Avg: {{playerInfo.FieldingAverage | number:3}}
+                        <!--On Base Avg: {{playerInfo.OnBasePercent | number:3}}<br />-->
+                        Fielding Avg: {{(playerInfo.Attempts + playerInfo.PutOuts) / (playerInfo.Attempts + playerInfo.PutOuts + playerInfo.Errors) | number:3}}
                     </div>
                 </div>
             </div>
