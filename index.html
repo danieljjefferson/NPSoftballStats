@@ -10,6 +10,7 @@
     <link href="css/bootstrap.min.css" rel="stylesheet" />
     <link href="bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet">
     <link rel="icon" href="img/favicon.png">
+    <link href="css/main.css" rel="stylesheet" />
     <style>
         .table tbody tr:hover {
             background-color: #D9EDF7 !important;
@@ -25,11 +26,35 @@
     </style>
 </head>
 <body>
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-2">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">Northpoint Softball Stats</a>
+            </div>
+
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-2">
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="index.html">Season Stats</a></li>
+                    <li><a href="games.html">Game Stats</a></li>
+                    <li><a href="changes.html">Updates</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
     <article class="container">
+
         <header class="page-header">
-            <h1 class="visible-md visible-lg ">Northpoint Softball Stats</h1>
-            <h3 class="visible-sm">Northpoint Softball Stats</h3>
-            <h4 class="visible-xs">Northpoint Softball Stats</h4>
+            <h1 class="visible-md visible-lg ">Season Stats</h1>
+            <h3 class="visible-sm">Season Stats</h3>
+            <h4 class="visible-xs">Season Stats</h4>
+            <small>Total stats for the season</small>
         </header>
         <div>
             <ul class="nav nav-tabs">
@@ -40,14 +65,14 @@
             <br />
             <div id="tab-stat-content" class="tab-content" ng-controller="BattingStatsController as bstats">
                 <div class="tab-pane fade active in" id="batting">
-                    <div class="table-responsive" >
+                    <div class="table-responsive">
                         <table id="player-stats" class="table table-striped">
                             <thead>
                                 <tr>
                                     <th ng-click="bstats.sortCol = 'Name'; bstats.sortReverse = !bstats.sortReverse">
                                         Name
                                         <i ng-show="bstats.sortCol == 'Name' && !bstats.sortReverse" class="fa fa-sort-desc" aria-hidden="true" ng></i>
-                                        <i ng-show="bstats.sortCol == 'Name' && bstats.sortReverse"class="fa fa-sort-asc" aria-hidden="true" ng></i>
+                                        <i ng-show="bstats.sortCol == 'Name' && bstats.sortReverse" class="fa fa-sort-asc" aria-hidden="true" ng></i>
                                     </th>
                                     <th ng-click="bstats.sortCol = 'AtBats'; bstats.sortReverse = !bstats.sortReverse">
                                         At Bats
@@ -218,9 +243,9 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <small>Data shown is directly from <a href="http://mlsoftball.com/team_statistics.php?programID=25&seasonID=825&TEAM_ID=BAND_OF_BROTHERS&league=S-MENLO">MLSoftball.com</a> and can be incorrect. Only players that have at least one (1) At Bat are shown</small>
+        </div>        
         <footer>
+            <small>Data shown is directly from <a href="http://mlsoftball.com/team_statistics.php?programID=25&seasonID=825&TEAM_ID=BAND_OF_BROTHERS&league=S-MENLO">MLSoftball.com</a> and can be incorrect. Only players that have at least one (1) At Bat are shown</small><br />
             <a href="mailto:danieljjefferson@gmail.com"><i class="fa fa-envelope-o" aria-hidden="true"></i> Send feedback</a>
         </footer>
     </article>
@@ -237,21 +262,19 @@
     </script>
     <!--Google Analytics-->
     <script>
-        (function (i, s, o, g, r, a, m) {
-            i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
-                (i[r].q = i[r].q || []).push(arguments)
-            }, i[r].l = 1 * new Date(); a = s.createElement(o),
-            m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
-        })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
-
         var host = window.location.hostname;
         if (host.search("localhost") || host.search("127.0.0.1"))
             console.log("Testing");
         else {
-            console.log("Not Testing");
+            (function (i, s, o, g, r, a, m) {
+                i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+                    (i[r].q = i[r].q || []).push(arguments)
+                }, i[r].l = 1 * new Date(); a = s.createElement(o),
+                m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+            })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
             ga('create', 'UA-77376551-1', 'auto');
             ga('send', 'pageview');
-        }
+        }        
     </script>
 </body>
 

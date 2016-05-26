@@ -1,0 +1,8 @@
+﻿/*
+    Styles for all pages 
+*/
+
+/*Bootstrap page-header seemed to leave too much space at the top*/
+.page-header {
+    margin-top: 25px !important;
+}

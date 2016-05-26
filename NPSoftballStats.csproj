@@ -197,11 +197,14 @@
     <Content Include="bower_components\jquery\src\var\support.js" />
     <Content Include="bower_components\jquery\src\var\toString.js" />
     <Content Include="bower_components\jquery\src\wrap.js" />
+    <Content Include="changes.html" />
+    <Content Include="css\main.css" />
     <Content Include="img\favicon.png" />
     <Content Include="js\basic.js" />
     <Content Include="js\d3dataload.js" />
     <Content Include="js\statsApp.js" />
     <Content Include="json\games.json" />
+    <Content Include="games.html" />
     <Content Include="stats.json" />
     <Content Include="bower_components\angular\.bower.json" />
     <Content Include="bower_components\angular\angular.min.js.gzip" />
