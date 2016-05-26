@@ -59,7 +59,7 @@ app.controller("PlayerController", function ($http) {
 
     $http({
         method: 'GET',
-        url: 'json/games.json'
+        url: 'games.json'
     }).then(function successCallback(response) {
         player.msg = response.status;
         player.games = response.data;
