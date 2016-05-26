@@ -19,7 +19,7 @@ app.controller("BattingStatsController", function ($http) {
         angular.forEach(response.data, function (player) {
             statsList.stats.push(player);
         });
-        console.log(statsList.stats);
+        //console.log(statsList.stats);
     }, function errorCallback(response) {
         statsList.message = response.statusText;
     });
