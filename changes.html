@@ -43,7 +43,7 @@
         </header>
         <ul class="list-group">
             <li class="list-group-item" ng-repeat="update in updates.changes">
-                {{update.commit.author.date | date:shortDate}}: {{update.commit.message}}
+                {{update.commit.author.date | date:shortDate}}: {{update.commit.message}}&nbsp;&nbsp;&nbsp;<i class="fa fa-exclamation-circle fa-2x text-success" style="vertical-align: middle;" aria-hidden="true" ng-show="update.commit.message == 'Stats Updated from MLS site'"></i>
             </li>
         </ul>
         <footer>

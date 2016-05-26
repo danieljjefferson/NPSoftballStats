@@ -203,7 +203,7 @@
     <Content Include="js\basic.js" />
     <Content Include="js\d3dataload.js" />
     <Content Include="js\statsApp.js" />
-    <Content Include="json\games.json" />
+    <Content Include="games.json" />
     <Content Include="games.html" />
     <Content Include="stats.json" />
     <Content Include="bower_components\angular\.bower.json" />
@@ -370,6 +370,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="json\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
