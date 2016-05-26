@@ -3,7 +3,7 @@ var app = angular.module("statsApp", []);
 console.log("Stats App");
 
 app.controller("BattingStatsController", function ($http) {
-    console.log("Batting Stats Controller");
+    //console.log("Batting Stats Controller");
 
     var statsList = this;
     statsList.sortCol = "Name";
@@ -25,7 +25,7 @@ app.controller("BattingStatsController", function ($http) {
     });
 
     statsList.pitchers = function () {
-        console.log("pitchers");
+        //console.log("pitchers");
         var pitchers = new Array();
         angular.forEach(statsList.stats, function (player) {
             if (player.InningsPitched > 0.0)
