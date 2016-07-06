@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html lang="en" ng-app="statsApp">
+<html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -12,18 +12,6 @@
     <link rel="icon" href="img/favicon.png">
     <link href="css/main.css" rel="stylesheet" />
     <style>
-        .card {
-            border: solid 1px #000;
-            margin: 4px;
-            border-radius: 2px;
-            box-shadow: 2px 2px 2px #AAA;
-            padding-top: 5px;
-            padding-bottom: 5px;
-        }
-
-        .dnp {
-            opacity: .25;
-        }
     </style>
 </head>
 <body>
@@ -42,47 +30,30 @@
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-2">
                 <ul class="nav navbar-nav">
                     <li><a href="index.html">Season Stats </a></li>
-                    <li class="active"><a href="games.html">Game Stats</a></li>
+                    <li><a href="games.html">Game Stats</a></li>
                     <li><a href="changes.html">Updates</a></li>
+                    <li class="active"><a href="team.html">Team</a></li>
                 </ul>
             </div>
         </div>
     </nav>
     <div class="container">
-            <header class="page-header">
-                <h1 class="visible-md visible-lg ">Game Stats</h1>
-                <h3 class="visible-sm">Game Stats</h3>
-                <h4 class="visible-xs">Game Stats</h4>
-                <small>Individual stats for each game. Dimmed players did not play in that game.</small>
-            </header>
-        <div ng-controller="PlayerController as player">
-            <div ng-repeat="game in player.games" class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title">
-                        {{game.HomeTeamName}} ({{game.HomeTeamScore}}) vs. {{game.VistorTeamName}} ({{game.VistorTeamScore}}) on {{game.GameDate | date:shortDate}}
-                    </h3>
-                </div>
-                <div class="panel-body row">
-                    <div ng-repeat="playerInfo in game.Stats" class="col-md-3 col-sm-3 col-lg-2 card" ng-class="playerInfo.AtBats == 0 ? 'dnp' : 'active'">
-                        <span> {{playerInfo.Name}}</span> <br />
-                        Batting Avg: {{playerInfo.BattingAverage | number:3}}<br />
-                        <!--On Base Avg: {{playerInfo.OnBasePercent | number:3}}<br />-->
-                        Fielding Avg: {{(playerInfo.Attempts + playerInfo.PutOuts) / (playerInfo.Attempts + playerInfo.PutOuts + playerInfo.Errors) | number:3}}
-                    </div>
-                </div>
-            </div>
-            <span style="display:none;">Status: {{player.msg}}</span>
-        </div>
+        <header class="page-header">
+            <h1 class="visible-md visible-lg ">Team Analysis</h1>
+            <h3 class="visible-sm">Team Analysis</h3>
+            <h4 class="visible-xs">Team Analysis</h4>
+            <small>Test page for team analysis. This page may change from day to day as I test a few things out.</small>
+        </header>
+        
         <footer>
             <small>Data shown is directly from <a href="http://mlsoftball.com/team_statistics.php?programID=25&seasonID=825&TEAM_ID=BAND_OF_BROTHERS&league=S-MENLO">MLSoftball.com</a> and can be incorrect. Only players that have at least one (1) At Bat are shown</small><br />
             <a href="mailto:danieljjefferson@gmail.com"><i class="fa fa-envelope-o" aria-hidden="true"></i> Send feedback</a>
         </footer>
     </div>
-    
+
     <script src="bower_components/jquery/dist/jquery.min.js"></script>
     <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="bower_components/angular/angular.min.js"></script>
-    <script src="js/statsApp.js"></script>
     <script>
     </script>
     <!--Google Analytics-->

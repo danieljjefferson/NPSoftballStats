@@ -1,0 +1,209 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Northpoint Softball Stats</title>
+
+    <link href="css/bootstrap.min.css" rel="stylesheet" />
+    <link href="bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="icon" href="img/favicon.png">
+    <link href="css/main.css" rel="stylesheet" />
+    <style>
+        #player-select {
+            width: 200px;
+        }
+
+        .disabled {
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-2">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">Northpoint Softball Stats</a>
+            </div>
+
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-2">
+                <ul class="nav navbar-nav">
+                    <li><a href="index.html">Season Stats </a></li>
+                    <li><a href="games.html">Game Stats</a></li>
+                    <li><a href="changes.html">Updates</a></li>
+                    <li class="active"><a href="player.html">Player</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container">
+        <header class="page-header">
+            <h1 class="visible-md visible-lg ">Player Analysis</h1>
+            <h3 class="visible-sm">Player Analysis</h3>
+            <h4 class="visible-xs">Player Analysis</h4>
+            <small>Test page for player analysis. This page may change from day to day as I test a few things out.</small>
+        </header>
+        <article>
+            <section id="player-name-section">
+                <select id="player-select" class="dropdown disabled" disabled>
+                    <option value="" disabled selected hidden>Loading</option>
+                </select>
+            </section>
+            <br />
+            <section id="player-stats-section">
+                <div id="stats">
+                    <!--<span id="player_name"></span>-->
+                    <table id="player-stat-table" class="table">
+                        <tr>
+                            <th>At Bats</th>
+                            <th>Hits</th>
+                            <th>BAvg</th>
+                            <th>Runs</th>
+                            <th>RBIs</th>
+                            <th>2B</th>
+                            <th>3B</th>
+                            <th>HR</th>
+                            <th>Slug%</th>
+                            <th>OB%</th>
+                            <th>RSP%</th>
+                            <th>Sac</th>
+                            <th>K</th>
+                            <th>BB</th>
+                        </tr>
+                    </table>
+                </div>
+            </section>
+        </article>
+        <footer>
+            <small>Data shown is directly from <a href="http://mlsoftball.com/team_statistics.php?programID=25&seasonID=825&TEAM_ID=BAND_OF_BROTHERS&league=S-MENLO">MLSoftball.com</a> and can be incorrect. Only players that have at least one (1) At Bat are shown</small><br />
+            <a href="mailto:danieljjefferson@gmail.com"><i class="fa fa-envelope-o" aria-hidden="true"></i> Send feedback</a>
+        </footer>
+    </div>
+
+    <script src="bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="bower_components/modernizer/modernizr.js"></script>
+    <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <!--<script src="bower_components/angular/angular.min.js"></script>-->
+    <script>
+        var player_game_data;
+
+        (function () {
+            //get player data
+            PreLoadPlayerStats();
+            var player_list = GetPlayers();
+
+            //event handlers
+            document.getElementById("player-select").addEventListener("change", OnPlayerSelect);
+
+
+        })();
+
+        function GetPlayers() {
+            var players = [];
+            $.getJSON("stats.json")
+            .success(function (data) {
+                var $player_select = $("#player-select");
+                $player_select.remove("option").toggleClass("disabled").removeAttr("disabled");
+                $player_select.append("<option value='' disabled selected hidden>Select a Player</option>");
+                $.each(data, function () {
+                    var player = this;
+                    player_name = player["Name"].split(",");
+                    player_first_last = player_name[1].trim() + " " + player_name[0].trim()
+                    players.push(player_first_last);
+                    $player_select.append("<option value='" + player_first_last + "'>" + player_first_last + "</option>");
+                });
+            })
+            .error(function () {
+                alert("stats.json failed!");
+            })
+            .complete(function () {
+                var saved_name = RestorePlayerName();
+                if (saved_name != null) {
+                    console.log("Restoring: " + saved_name);
+                    $("#player-select").val(saved_name);
+                    console.log("Selected: " + $("#player-select").val());
+                    document.getElementById("player-select").dispatchEvent(new Event("change"));
+                }
+            })
+
+            return players;
+        }
+
+        function PreLoadPlayerStats() {
+            $.getJSON("games.json")
+            .success(function (data) {
+                player_game_data = data;
+            });
+        }
+
+        function OnPlayerSelect(e) {
+            var player_name_split = this.value.split(" ");
+            var mls_player_name = "";
+            if (player_name_split.length == 3)
+                mls_player_name = player_name_split[1] + " " + player_name_split[2] + ", " + player_name_split[0];
+            else
+                mls_player_name = player_name_split[1] + ", " + player_name_split[0];
+            console.log("Searching for: " + mls_player_name);
+            var player_stats = [];
+            $.each(player_game_data, function () {
+                var game = this;
+                //console.log(game);
+                $.each(game["Stats"], function () {
+                    var player_stat = this;
+                    player_stat["GameDate"] = game["GameDate"];
+                    if (player_stat["Name"] == mls_player_name && player_stat["AtBats"] > 0)
+                        player_stats.push(player_stat)
+                });
+            });
+
+            //update player data
+            LoadPlayer(this.value, player_stats)
+
+            SavePlayerName(this.value);
+        }
+
+        function LoadPlayer(name, stats) {
+            $("#player_name").text(name);
+            $("#player-stat-table").find("tr td").remove();
+            $.each(stats, function () {
+                //console.log(this);
+                $("#player-stat-table").append("<tr><td>" + this.AtBats + "</td><td>" + this.Hits + "</td><td>" + this.BattingAverage.toFixed(3) + "</td><td>" + this.Runs + "</td><td>" + this.RBIs + "</td><td>" + this.Doubles + "</td><td>" + this.Triples + "</td><td>" + this.HomeRuns + "</td><td>" + this.SluggingPercent.toFixed(3) + "</td><td>" + this.OnBasePercent.toFixed(3) + "</td><td>" + this.RSP.toFixed(3) + "</td><td>" + this.Sacrifces + "</td><td>" + this.StrikeOuts + "</td><td>" + this.BaseOnBalls + "</td></tr>")
+            });
+        }
+
+        function SavePlayerName(name) {
+            if (Modernizr.localstorage) {
+                console.log("Updating Name: " + name);
+                localStorage["player_name"] = name;
+            }
+        }
+
+        function RestorePlayerName() {
+            if (Modernizr.localstorage && localStorage["player_name"] != "")
+                return localStorage["player_name"];
+            else
+                return null;
+        }
+
+    </script>
+    <!--Google Analytics-->
+    <!--<script>
+        (function (i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date(); a = s.createElement(o),
+            m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+        ga('create', 'UA-77376551-1', 'auto');
+        ga('send', 'pageview');
+    </script>-->
+</body>
+</html>
