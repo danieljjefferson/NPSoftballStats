@@ -19,6 +19,15 @@
         .disabled {
             cursor: not-allowed;
         }
+
+        canvas {
+            padding-left: 0;
+            padding-right: 0;
+            margin-left: auto;
+            margin-right: auto;
+            display: block;
+            border: 1px solid black
+        }
     </style>
 </head>
 <body>
@@ -59,7 +68,7 @@
             </section>
             <br />
             <section id="player-stats-section">
-                <div id="stats">
+                <div id="stats" class="table-responsive">
                     <!--<span id="player_name"></span>-->
                     <table id="player-stat-table" class="table">
                         <tr>
@@ -81,6 +90,9 @@
                     </table>
                 </div>
             </section>
+            <section>
+                <canvas id="hits-canvas" height="300" width="300"></canvas>
+            </section>
         </article>
         <footer>
             <small>Data shown is directly from <a href="http://mlsoftball.com/team_statistics.php?programID=25&seasonID=825&TEAM_ID=BAND_OF_BROTHERS&league=S-MENLO">MLSoftball.com</a> and can be incorrect. Only players that have at least one (1) At Bat are shown</small><br />
@@ -91,6 +103,7 @@
     <script src="bower_components/jquery/dist/jquery.min.js"></script>
     <script src="bower_components/modernizer/modernizr.js"></script>
     <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="js/canvas/hits-canvas.js"></script>
     <!--<script src="bower_components/angular/angular.min.js"></script>-->
     <script>
         var player_game_data;
@@ -103,7 +116,8 @@
             //event handlers
             document.getElementById("player-select").addEventListener("change", OnPlayerSelect);
 
-
+            //DrawGridLines();
+            DrawDiamond();
         })();
 
         function GetPlayers() {
@@ -188,7 +202,7 @@
 
         function RestorePlayerName() {
             if (Modernizr.localstorage && localStorage["player_name"] != "")
-                return localStorage["player_name"];
+                return localStorage.getItem("player_name");
             else
                 return null;
         }
