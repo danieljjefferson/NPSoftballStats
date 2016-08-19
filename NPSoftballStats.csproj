@@ -205,6 +205,7 @@
     <Content Include="js\statsApp.js" />
     <Content Include="games.json" />
     <Content Include="games.html" />
+    <Content Include="player.html" />
     <Content Include="stats.json" />
     <Content Include="bower_components\angular\.bower.json" />
     <Content Include="bower_components\angular\angular.min.js.gzip" />
@@ -356,6 +357,8 @@
     <Content Include="bower_components\jquery\sizzle\dist\sizzle.min.map" />
     <Content Include="bower_components\jquery\src\.jshintrc" />
     <Content Include="packages.config" />
+    <Content Include="archive\games.json" />
+    <Content Include="archive\stats.json" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -366,6 +369,7 @@
   <ItemGroup>
     <Content Include="css\bootstrap.min.css" />
     <Content Include="index.html" />
+    <Content Include="team.html" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
